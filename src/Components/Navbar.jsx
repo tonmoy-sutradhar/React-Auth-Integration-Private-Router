@@ -45,7 +45,8 @@ const Navbar = () => {
             <NavLink to="/">Home</NavLink>
             <NavLink to="/login">Login</NavLink>
             <NavLink to="/register">Register</NavLink>
-            <NavLink to="/orders">Orders</NavLink>
+            {user && <NavLink to="/orders">Orders</NavLink>}
+            {user && <NavLink to="/profile">Profile</NavLink>}
           </ul>
         </div>
         <a className="btn btn-ghost text-xl font-bold text-white">
@@ -58,6 +59,7 @@ const Navbar = () => {
           <NavLink to="/login">Login</NavLink>
           <NavLink to="/register">Register</NavLink>
           {user && <NavLink to="/orders">Orders</NavLink>}
+          {user && <NavLink to="/profile">Profile</NavLink>}
         </ul>
       </div>
       <div className="navbar-end">
