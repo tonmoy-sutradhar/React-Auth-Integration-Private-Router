@@ -1,10 +1,22 @@
 import { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../Providers/AuthProvider";
+import { signOut } from "firebase/auth";
 
 const Navbar = () => {
-  const { name } = useContext(AuthContext);
-  console.log(name);
+  // const signOutUSer = useContext(AuthContext);
+  const { user, signOutUser } = useContext(AuthContext);
+  console.log(user);
+
+  const handleSignOUt = () => {
+    signOutUser()
+      .then(() => {
+        console.log("SignOUT Successfully Done.");
+      })
+      .catch((error) => {
+        console.log("ERROR in SIGNOUT", error);
+      });
+  };
 
   return (
     <div className="navbar bg-purple-600 mx-auto px-11">
@@ -33,6 +45,7 @@ const Navbar = () => {
             <NavLink to="/">Home</NavLink>
             <NavLink to="/login">Login</NavLink>
             <NavLink to="/register">Register</NavLink>
+            <NavLink to="/orders">Orders</NavLink>
           </ul>
         </div>
         <a className="btn btn-ghost text-xl font-bold text-white">
@@ -44,14 +57,29 @@ const Navbar = () => {
           <NavLink to="/">Home</NavLink>
           <NavLink to="/login">Login</NavLink>
           <NavLink to="/register">Register</NavLink>
+          {user && <NavLink to="/orders">Orders</NavLink>}
         </ul>
       </div>
       <div className="navbar-end">
-        <NavLink to="/">
-          <button className="font-bold text-white btn btn-primary">
-            Fire🔥 {name}
-          </button>
-        </NavLink>
+        {user ? (
+          <>
+            <span className="mr-4">
+              Fire🔥 {user?.email} {/*optinal chain (?.)*/}
+            </span>
+            <button
+              onClick={handleSignOUt}
+              className="font-bold text-white btn btn-primary"
+            >
+              SignOut
+            </button>
+          </>
+        ) : (
+          <Link to="/login">
+            <button className="font-bold text-white btn btn-primary">
+              SIGN IN
+            </button>
+          </Link>
+        )}
       </div>
     </div>
   );
